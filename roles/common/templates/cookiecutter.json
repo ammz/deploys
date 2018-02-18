@@ -1,0 +1,4 @@
+{
+    "project_name": "{{ app_name }}",
+    "repo_name": "{{ app_name }}"
+}

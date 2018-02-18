@@ -1,0 +1,25 @@
+###
+# Este playbook despliega un servidor de desarrollo
+###
+---
+# - name: aplica una configuración común a los servidores
+- hosts: all
+  user: "{{ deploy_user }}"
+  become: yes
+  
+  pre_tasks:
+    - name: repositorio con python3.6
+      apt_repository: repo=ppa:deadsnakes/ppa
+
+    - name: actualiza los paquetes
+      apt: update_cache=yes cache_valid_time=3600
+      become: yes
+
+  vars:
+    venv_path: "~/siaxe/venv"
+    requirements_path: "~/siaxe/requirements.txt"
+
+
+  roles:
+    - common
+

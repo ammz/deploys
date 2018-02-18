@@ -1,0 +1,19 @@
+###
+# Configuración del servidor Nginx sin HTTPS
+###
+- name: asegura que nginx está instalado
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: asegura que el enlace simbólico por defecto esté borrado
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  
+- name: escribe la configuración no-SSL de nginx
+  template: src=nginx_no_ssl.conf.j2
+            dest=/etc/nginx/conf.d/{{ app_name }}.conf
+  notify:
+    - restart nginx

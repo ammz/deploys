@@ -1,0 +1,24 @@
+# Sistema operativo (Ubuntu)
+app_name: siaxe
+deploy_user: ubuntu
+deploy_group: deployers
+# ssh_dir:
+
+# Web server
+deploy_ssl: true
+wsgi_server_port: 8000
+fqdn_dev: siaxe.binfante.es
+app_dir: /home/{{deploy_user}}/{{app_name}}
+## los certificados locales deben ir aquí
+ssl_cert_dir: ~/Dropbox/siaxe/ssl_cert/
+
+# PostgreSQL
+db_password: kal8493
+db_name: "{{ app_name }}"
+db_user: ammz
+
+# Dependencias de pyramid
+proy_dir: "/home/{{ deploy_user }}/proyectos"
+venv_dir: "{{ proy_dir }}/{{ app_name }}"
+venv_python: "{{ venv_dir }}/bin/python"
+tpl_cookiecutter: "pyramid-cookiecutter-alchemy"

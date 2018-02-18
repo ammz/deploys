@@ -1,0 +1,13 @@
+###
+# Configura el servidor e instala la aplicación
+###
+- include_tasks: ubuntu.yml
+# - include_tasks: nginx_ssl.yml
+#   when: deploy_ssl
+
+- include_tasks: nginx_no_ssl.yml
+  # when: not deploy_ssl
+
+- include_tasks: postgresql.yml
+
+- include_tasks: dependencies.yml

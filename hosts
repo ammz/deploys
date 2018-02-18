@@ -1,0 +1,5 @@
+[common]
+192.168.33.11
+
+[common:vars]
+ansible_python_interpreter=/usr/bin/python3

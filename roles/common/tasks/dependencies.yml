@@ -1,0 +1,51 @@
+
+
+- name: instala cookiecutter
+  pip:
+    name: cookiecutter
+    state: present
+  become: no
+    
+- name: crea el diretorio .cookiecutter si no existe
+  file:
+    path: /home/{{ deploy_user }}/.cookiecutters
+    state: directory
+    owner: "{{ deploy_user }}"
+
+# - name: obtiene la plantilla de cookiecutter pyramid-cookiecutter-alchemy
+#   git:
+#     repo: 'https://github.com/Pylons/pyramid-cookiecutter-alchemy.git'
+#     dest: /home/{{ deploy_user }}/.cookiecutters/{{ tpl_cookiecutter }}
+#     version: 1.9-branch
+#     force: yes
+#   become: no
+
+- name: obtiene la plantilla de cookiecutter pyramid-cookiecutter-alchemy
+  git:
+    repo: 'https://github.com/ammz/pyramid-cookiecutter-alchemy.git'
+    dest: /home/{{ deploy_user }}/.cookiecutters/{{ tpl_cookiecutter }}
+    force: yes
+  become: no
+
+- name: cambia las variables en cookiecutter.json
+  template: src=cookiecutter.json
+            dest=/home/{{ deploy_user }}/.cookiecutters/{{ tpl_cookiecutter }}/cookiecutter.json
+  become: no
+
+# - name: copia y crea nueva plantilla cookiecutter
+#   command: rsync -a /home/{{ deploy_user }}/.cookiecutters/{{ tpl_cookiecutter }}/ /home/{{ deploy_user }}/.cookiecutters/my{{ tpl_cookiecutter }}
+#   become: no
+
+# - name: genera un proyecto pyramid desde cookiecutter
+#   command: cookiecutter pyramid-cookiecutter-alchemy --no-input --overwrite-if-exists
+#   args:
+#     chdir: "{{ proy_dir }}/"
+#   become: no
+
+
+# - name: instala las dependencias en un nuevo virtualenv
+#   pip:
+#     virtualenv: "{{ venv_dir }}"
+#     virtualenv_command: /usr/bin/python3.6 -m venv
+#     name: cookiecutter
+

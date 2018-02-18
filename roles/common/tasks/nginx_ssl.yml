@@ -1,0 +1,26 @@
+##
+# Configuración del servidor Nginx
+##
+- name: asegura que nginx está instalado
+  apt: name=nginx state=present
+  become: yes
+
+- name: crea el directorio ssl de nginx si no existe
+  file: path=/etc/nginx/{{ app_name }} state=directory
+
+- name: escribe el certificado SSL
+  copy: src={{ ssl_certs_dir }}/{{ app_name }}.crt
+        dest=/etc/nginx/{{ app_name }}/{{ app_name}}.key
+  become: yes
+
+- name: asegura que el enlace simbólico por defecto esté borrado
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  become: yes
+
+- name: escribe la configuración de nginx
+  template: src=nginx_ssl.conf.j2
+            dest=/etc/nginx/conf.d/{{ app_name }}.conf
+  become: yes
+  notify:
+    - restart nginx
+  

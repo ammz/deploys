@@ -1,0 +1,19 @@
+- name: asegura que la base de datos postgresql esté instalada
+  apt: name={{ item }}
+  become: yes
+  with_items:
+    - postgresql
+    - postgresql-contrib
+    - python3-psycopg2
+
+- name: asegura que la base de datos de la aplicación se crea
+  postgresql_db: name={{ app_name }}
+  become: yes
+  become_user: postgres
+
+- name: configura un usuario para PostgreSQL
+  postgresql_user: db={{ app_name }} name={{ db_user }}
+    password={{ db_password }} priv=ALL
+    role_attr_flags=NOSUPERUSER
+  become: yes
+  become_user: postgres

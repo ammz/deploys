@@ -1,0 +1,41 @@
+###
+# Actualiza los paquetes e instala los que son necsarios
+# También activa el firewall
+###
+- apt: update_cache=yes cache_valid_time=3600
+
+- name: asegura que los paquetes del servidor estén instalados
+  apt: name={{ item }}
+  with_items:
+    - fail2ban
+
+- name: Instala Python 3.6
+  apt:
+    name: python3.6
+    state: present
+
+- name: Instala python3-venv. Necesario para Ubuntu
+  apt:
+    name: python3.6-venv
+    state: present
+
+- name: Instala python3. Necesario para ubuntu
+  apt:
+    name: python3-pip
+    state: present
+    
+- name: Instalamos locale es_ES.UTF-8
+  apt:
+    name: language-pack-es
+    state: present
+
+- name: activa SSH en firewall
+  ufw: rule=allow port=22
+- name: activa HTTP en firewall
+  ufw: rule=allow port=80
+- name: activa pyramid en firewall
+  ufw: rule=allow port=6543
+- name: activa HTTPS en firewall
+  ufw: rule=allow port=443
+- name: activa el firewall
+  ufw: state=enabled
